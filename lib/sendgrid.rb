@@ -246,7 +246,15 @@ module SendGrid
       header_opts[:filters] = filters if filters && !filters.empty?
     end
 
-    header_opts.to_json.gsub(/(["\]}])([,:])(["\[{])/, '\\1\\2 \\3')
+    json_options = {
+      :indent       => '',
+      :space        => " ",
+      :space_before => " ",
+      :object_nl    => " ",
+      :array_nl     => " "
+    }
+
+    JSON.generate(header_opts, json_options)
   end
 
   def filters_hash_from_options(enabled_opts, disabled_opts)
