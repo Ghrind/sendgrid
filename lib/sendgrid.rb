@@ -248,10 +248,10 @@ module SendGrid
 
     json_options = {
       :indent       => '',
-      :space        => " ",
-      :space_before => " ",
-      :object_nl    => " ",
-      :array_nl     => " "
+      :space        => "\n",
+      :space_before => "\n",
+      :object_nl    => "\n",
+      :array_nl     => "\n"
     }
 
     JSON.generate(header_opts, json_options)
