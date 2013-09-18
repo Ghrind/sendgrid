@@ -254,6 +254,16 @@ module SendGrid
       :array_nl     => "\n"
     }
 
+    if ActionMailer::Base.respond_to?(:mail)
+      json_options = {
+        :indent       => '',
+        :space        => " ",
+        :space_before => " ",
+        :object_nl    => " ",
+        :array_nl     => " "
+      }
+    end
+
     JSON.generate(header_opts, json_options)
   end
 
