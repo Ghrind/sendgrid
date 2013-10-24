@@ -221,6 +221,10 @@ module SendGrid
       header_opts[:category] = self.class.default_sg_category
     end
 
+    if header_opts[:category] && defined?(Rails)
+      header_opts[:category] = [header_opts[:category], "rails_env_#{Rails.env}"].flatten
+    end
+
     # Set multi-recipients
     if @sg_recipients && !@sg_recipients.empty?
       header_opts[:to] = @sg_recipients
