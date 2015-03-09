@@ -268,7 +268,20 @@ module SendGrid
       }
     end
 
-    JSON.generate(header_opts, json_options)
+    escape_unicode(JSON.generate(header_opts, json_options))
+  end
+
+  def escape_unicode(str)
+    str.unpack('U*').map do |i|
+      if i > 65_535
+        "\\u#{format('%04x', ((i - 0x10000) / 0x400 + 0xD800))}"\
+          "\\u#{format('%04x', ((i - 0x10000) % 0x400 + 0xDC00))}" if i > 65_535
+      elsif i > 127
+        "\\u#{format('%04x', i)}"
+      else
+        i.chr('UTF-8')
+      end
+    end.join
   end
 
   def filters_hash_from_options(enabled_opts, disabled_opts)
